@@ -3,7 +3,7 @@ const app = exp();
 const cors = require('cors');
 
 // Import controllers
-const { buyProduct } = require('./controllers/buyProduct');
+const { buyProduct } = require('./controllers/m/buyProduct');
 
 // Middleware
 app.use(cors());
