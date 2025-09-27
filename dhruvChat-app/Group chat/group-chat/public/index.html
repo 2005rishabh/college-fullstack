@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Group Chat</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 250px;
+        background: #fff;
+        border-right: 1px solid #ddd;
+        padding: 10px;
+        overflow-y: auto;
+      }
+      .sidebar h3 {
+        margin-top: 0;
+      }
+      .user {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .avatar {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: #ccc;
+        margin-right: 10px;
+      }
+      .circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 6px;
+      }
+      .online {
+        background: green;
+      }
+      .offline {
+        background: red;
+      }
+
+      /* Chat area */
+      .chat-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: #f5f5f5;
+      }
+      #messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
+      .message-container {
+        display: flex;
+        align-items: flex-end;
+        margin: 5px 0;
+      }
+      .message {
+        padding: 8px 12px;
+        border-radius: 10px;
+        max-width: 60%;
+        word-wrap: break-word;
+      }
+      .self {
+        background: #dcf8c6;
+        margin-left: auto;
+        text-align: right;
+      }
+      .other {
+        background: #fff;
+        border: 1px solid #ddd;
+        margin-right: auto;
+      }
+      .msg-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #ccc;
+        margin: 0 5px;
+      }
+
+      /* Input */
+      form {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        background: #fff;
+      }
+      #input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        outline: none;
+      }
+      button {
+        margin-left: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background: green;
+        color: white;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>Chats</h3>
+      <div id="users">
+        <div class="user">
+          <div class="avatar"></div>
+          <div class="circle online"></div>
+          <span>Frank</span>
+        </div>
+        <div class="user">
+          <div class="avatar"></div>
+          <div class="circle online"></div>
+          <span>Charlie</span>
+        </div>
+        <div class="user">
+          <div class="avatar"></div>
+          <div class="circle offline"></div>
+          <span>Alice</span>
+        </div>
+        <div class="user">
+          <div class="avatar"></div>
+          <div class="circle online"></div>
+          <span>David</span>
+        </div>
+        <div class="user">
+          <div class="avatar"></div>
+          <div class="circle offline"></div>
+          <span>Sophia</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-container">
+      <div id="messages">
+        <!-- Example messages -->
+        <div class="message-container">
+          <div class="msg-avatar"></div>
+          <div class="message other">Hello!</div>
+        </div>
+        <div class="message-container" style="justify-content: flex-end">
+          <div class="message self">Hi, how are you?</div>
+          <div class="msg-avatar"></div>
+        </div>
+        <div class="message-container">
+          <div class="msg-avatar"></div>
+          <div class="message other">I’m good, thanks!</div>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <form id="form">
+        <input
+          id="input"
+          autocomplete="off"
+          placeholder="Type your message..."
+        />
+        <button>Send</button>
+      </form>
+    </div>
+
+    <script>
+      const socket = io();
+      const form = document.getElementById("form");
+      const input = document.getElementById("input");
+      const messages = document.getElementById("messages");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (input.value) {
+          addMessage(input.value, "self");
+          socket.emit("chat message", input.value);
+          input.value = "";
+        }
+      });
+
+      socket.on("chat message", function (msg) {
+        addMessage(msg, "other");
+      });
+
+      function addMessage(text, type) {
+        const container = document.createElement("div");
+        container.classList.add("message-container");
+        if (type === "self") container.style.justifyContent = "flex-end";
+
+        const avatar = document.createElement("div");
+        avatar.classList.add("msg-avatar");
+
+        const msg = document.createElement("div");
+        msg.classList.add("message", type);
+        msg.innerText = text;
+
+        if (type === "self") {
+          container.appendChild(msg);
+          container.appendChild(avatar);
+        } else {
+          container.appendChild(avatar);
+          container.appendChild(msg);
+        }
+
+        messages.appendChild(container);
+        messages.scrollTop = messages.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
