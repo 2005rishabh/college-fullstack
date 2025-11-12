@@ -11,10 +11,13 @@ const io = new Server(server);
 app.use(cors());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://127.0.0.1:27017/groupchat", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://20rishabh05:rishabh2005@cluster0.dyl3fbf.mongodb.net/?appName=Cluster0",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 const messageSchema = new mongoose.Schema({
   text: String,

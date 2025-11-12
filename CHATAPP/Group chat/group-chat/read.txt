@@ -1,0 +1,79 @@
+Your second project is a **real-time group chat application** using **Node.js**, **Express**, **Socket.IO**, and **MongoDB**. Below is your full evaluation prep:
+
+---
+
+### 🔹 **Project Title**
+
+**Real-Time Group Chat Application**
+
+---
+
+### 🔹 **Tech Stack**
+
+* **Node.js + Express** — backend server
+* **Socket.IO** — real-time communication between users
+* **MongoDB + Mongoose** — stores chat messages
+* **HTML, CSS, JS** — frontend chat interface
+
+---
+
+### 🔹 **Project Description**
+
+A fully functional **group chat app** that allows multiple users to chat instantly in a shared room.
+Each user is assigned a random name when they connect. Messages are saved in a MongoDB database so older messages appear when new users join.
+
+---
+
+### 🔹 **Workflow**
+
+1. **User connects** → assigned a random name (e.g., Alice, Bob).
+2. **Old messages** (last 20) are fetched from MongoDB and shown.
+3. **Socket.IO** handles:
+
+   * `connection` — new user joins
+   * `chat message` — message sent to all connected clients
+   * `disconnect` — user leaves, broadcasted to everyone
+4. **Messages** are saved to MongoDB with sender name and timestamp.
+5. **Frontend (`index.html`)** displays:
+
+   * Sidebar with user list and online/offline status
+   * Chat area for messages
+   * Input box for sending new messages
+
+---
+
+### 🔹 **Key Features**
+
+* Real-time two-way communication
+* MongoDB persistence (messages stored permanently)
+* Online/offline user tracking
+* Simple, responsive chat UI
+* Auto-loading recent messages
+
+---
+
+### 🔹 **Possible Evaluation Questions**
+
+| Question                                | Answer                                                                                                                                                      |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| What is Socket.IO used for?             | For enabling real-time bidirectional communication between client and server.                                                                               |
+| How do you store and retrieve messages? | Using MongoDB with a Mongoose model; each message has text, sender, and timestamp.                                                                          |
+| How do users connect and disconnect?    | When a user connects, they get a random name and are added to the `onlineUsers` list; on disconnect, their status updates and a leave message is broadcast. |
+| What happens if I refresh the page?     | The server reassigns a new name, loads the last 20 messages from the database, and displays them.                                                           |
+| How would you improve this project?     | Add login system, private chats, typing indicators, message timestamps in UI, and deployment on Render or Vercel.                                           |
+| How do you test it?                     | Run `node server.js`, open multiple tabs on `http://localhost:3000`, and test real-time messaging.                                                          |
+
+---
+
+### 🔹 **1-Minute Explanation Script**
+
+> “This project is a real-time group chat app built using Node.js, Express, Socket.IO, and MongoDB.
+> Each user automatically gets a random name when they join.
+> All messages are sent and received instantly using WebSockets via Socket.IO, and each message is saved to MongoDB so the last 20 messages appear for new users.
+> The frontend is a simple HTML and CSS interface with a sidebar for users and a chat area for conversation.
+> It demonstrates event-driven programming and real-time data synchronization.”
+
+---
+
+Do you want me to combine **both projects** (E-commerce backend + Group Chat app) into a **final evaluation summary sheet** with a clean format for printing or submission?
+
